@@ -1,48 +1,48 @@
-// 1. Importar la herramienta Express.
+// 1. Importar las herramientas que necesitamos.
 const express = require('express');
+const cors = require('cors'); // ¡LA NUEVA HERRAMIENTA!
+
 const app = express();
 
-// --- NUEVO: Un "traductor" universal para datos ---
+// --- ¡LA LÍNEA MÁGICA! ---
+// Esto le dice a nuestro servidor que use la herramienta 'cors'.
+// Ahora dará permiso a otros dominios para que le pidan datos.
+app.use(cors());
+
 // Esta línea le permite a nuestro servidor entender datos en formato JSON.
 app.use(express.json());
 
-// 2. Definir el puerto. Render lo gestionará automáticamente, pero es bueno tenerlo.
+// 2. Definir el puerto.
 const PORT = process.env.PORT || 3000;
 
-// --- NUEVO: Nuestra primera "Base de Datos" temporal ---
-// Por ahora, nuestros juegos vivirán aquí, dentro del propio servidor.
-// Más adelante, los haremos persistentes.
+// 3. Nuestra "Base de Datos" temporal.
 let juegos = [
     {
         id: 1,
         nombre: 'Cyberpunk 2077',
         precio: '$29.990',
-        portada: 'https://ejemplo.com/portada-cyberpunk.jpg'
+        portada: 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2020/12/cyberpunk-2077-analisis-2156931.jpg'
     },
     {
         id: 2,
         nombre: 'The Witcher 3: Wild Hunt',
         precio: '$19.990',
-        portada: 'https://ejemplo.com/portada-witcher3.jpg'
+        portada: 'https://image.api.playstation.com/vulcan/img/rnd/202010/2614/itbAQ5K6x1aE4aA4qfUSY22z.jpg'
     },
     {
         id: 3,
         nombre: 'Red Dead Redemption 2',
         precio: '$34.990',
-        portada: 'https://ejemplo.com/portada-rdr2.jpg'
+        portada: 'https://image.api.playstation.com/vulcan/img/rnd/202010/2217/LBB9hHi2C3BJSutgS2g9fG2z.jpg'
     }
 ];
 
-// --- RUTA ORIGINAL: La hemos mantenido para pruebas ---
+// 4. Nuestras rutas de API.
 app.get('/', (req, res) => {
-  res.send('¡El servidor para Pepsend Ofertas funciona!');
+  res.send('¡El servidor para Pepsend Ofertas funciona y ahora tiene CORS habilitado!');
 });
 
-// --- ¡NUEVA RUTA DE API! ---
-// Esto crea una nueva URL: /api/juegos
-// Cuando alguien la visita, el servidor ejecuta esta función.
 app.get('/api/juegos', (req, res) => {
-  // La respuesta es simple: enviamos la lista completa de juegos en formato JSON.
   res.json(juegos);
 });
 
